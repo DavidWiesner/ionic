@@ -205,7 +205,7 @@ export class InfiniteScroll implements ComponentInterface {
 
   private enableScrollEvents(shouldListen: boolean) {
     if (this.scrollEl) {
-      this.enableListener(this, 'scroll', shouldListen, this.scrollEl);
+      this.enableListener(this, 'scroll', shouldListen, this.scrollEl, true);
     }
   }
 

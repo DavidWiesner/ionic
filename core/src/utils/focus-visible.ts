@@ -4,6 +4,7 @@ const ION_FOCUSABLE = 'ion-focusable';
 const FOCUS_KEYS = ['Tab', 'ArrowDown', 'Space', 'Escape', ' ', 'Shift', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp'];
 
 export function startFocusVisible(doc: Document) {
+  const listenerOptions = {passive: true, capture: false};
 
   let currentFocus: Element[] = [];
   let keyboardMode = true;
@@ -19,7 +20,7 @@ export function startFocusVisible(doc: Document) {
     if (!keyboardMode) {
       setFocus([]);
     }
-  });
+  }, listenerOptions);
 
   const pointerDown = () => {
     keyboardMode = false;
@@ -35,12 +36,12 @@ export function startFocusVisible(doc: Document) {
       }) as Element[];
       setFocus(toFocus);
     }
-  });
+  }, listenerOptions);
   doc.addEventListener('focusout', () => {
     if (doc.activeElement === doc.body) {
       setFocus([]);
     }
-  });
-  doc.addEventListener('touchstart', pointerDown);
-  doc.addEventListener('mousedown', pointerDown);
+  }, listenerOptions);
+  doc.addEventListener('touchstart', pointerDown, listenerOptions);
+  doc.addEventListener('mousedown', pointerDown, listenerOptions);
 }

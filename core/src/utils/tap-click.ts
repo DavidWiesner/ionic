@@ -3,6 +3,7 @@ import { Config } from '../interface';
 import { now, pointerCoord } from './helpers';
 
 export function startTapClick(doc: Document, config: Config) {
+  const listenerOptions = {passive: true, capture: true};
   let lastTouch = -MOUSE_WAIT * 10;
   let lastActivated = 0;
   let scrollingEl: HTMLElement | undefined;
@@ -136,18 +137,18 @@ export function startTapClick(doc: Document, config: Config) {
   doc.addEventListener('ionScrollStart', ev => {
     scrollingEl = ev.target as HTMLElement;
     cancelActive();
-  });
+  }, listenerOptions);
   doc.addEventListener('ionScrollEnd', () => {
     scrollingEl = undefined;
-  });
-  doc.addEventListener('ionGestureCaptured', cancelActive);
+  }, listenerOptions);
+  doc.addEventListener('ionGestureCaptured', cancelActive, listenerOptions);
 
-  doc.addEventListener('touchstart', onTouchStart, true);
-  doc.addEventListener('touchcancel', onTouchEnd, true);
-  doc.addEventListener('touchend', onTouchEnd, true);
+  doc.addEventListener('touchstart', onTouchStart, listenerOptions);
+  doc.addEventListener('touchcancel', onTouchEnd, listenerOptions);
+  doc.addEventListener('touchend', onTouchEnd, listenerOptions);
 
-  doc.addEventListener('mousedown', onMouseDown, true);
-  doc.addEventListener('mouseup', onMouseUp, true);
+  doc.addEventListener('mousedown', onMouseDown, listenerOptions);
+  doc.addEventListener('mouseup', onMouseUp, listenerOptions);
 }
 
 function getActivatableTarget(ev: any): any {
